@@ -1,0 +1,20 @@
+def triangle(row):
+    # Diccionario con las combinaciones de pares de colores
+    # Si son iguales, da el mismo. Si son diferentes, da el que falta.
+    colors = {
+        'GG': 'G', 'BB': 'B', 'RR': 'R',
+        'BR': 'G', 'RB': 'G',
+        'GR': 'B', 'RG': 'B',
+        'BG': 'R', 'GB': 'R'
+    }
+    
+    # Lista de saltos óptimos basados en potencias de 3 (3^k)
+    # Como el máximo de fila es 100,000, la potencia más cercana menor es 59049
+    steps = [59049, 19683, 6561, 2187, 729, 243, 81, 27, 9, 3, 1]
+    
+    for step in steps:
+        while len(row) > step:
+            # Reducimos la fila dando saltos gigantescos usando solo los extremos
+            row = [colors[row[i] + row[i + step]] for i in range(len(row) - step)]
+            
+    return row[0]
