@@ -1,0 +1,28 @@
+from preloaded import MORSE_CODE
+import re
+
+def decode_bits(bits):
+    bits = bits.strip('0')
+    if not bits:
+        return '.'
+    
+    ones = [len(x) for x in re.findall(r'1+', bits)]
+    zeros = [len(x) for x in re.findall(r'0+', bits)]
+    unit = min(ones + zeros)
+    
+    result = ''
+    for m in re.finditer(r'1+|0+', bits):
+        seq = m.group()
+        n = round(len(seq) / unit)
+        if seq[0] == '1':
+            result += '.' if n == 1 else '-'
+        elif n == 1:
+            result += ''
+        elif n == 3:
+            result += ' '
+        else:
+            result += '   '
+    return result
+
+def decode_morse(morse_code):
+    return ' '.join(''.join(MORSE_CODE[c] for c in w.split()) for w in morse_code.strip().split('   '))
